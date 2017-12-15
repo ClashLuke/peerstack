@@ -97,12 +97,6 @@ class Peer(object):
 
 		 		for s in writable:
 					try:
-						'''
-						if not s in self.has_thread:
-							t = threading.Thread(target=self.work, args=(s,))
-							t.start()
-							self.has_thread.append(s)
-						'''
 						input = self.connected[s]["in"].get_nowait()
 						try:
 							msg = json.loads(input)
