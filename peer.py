@@ -42,9 +42,8 @@ class Peer(object):
         self.routes[key] = partial(function, self)
 
     def add_route_dict(self, routes: dict):
-        for key, function in routes.items():
-            self.add_route(key, function)
-
+        self.routes.update(routes)
+        
     def on(self, key):
         def decorator(f):
             self.add_route(key, f)
