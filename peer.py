@@ -2,7 +2,6 @@ import json
 import queue
 import select
 import sys
-import threading
 import time
 import traceback
 from functools import partial
@@ -39,9 +38,16 @@ class Peer(object):
     def speername(self):
         return self.address + ":" + str(self.port)
 
+    def add_route(self, key, function):
+        self.routes[key] = partial(function, self)
+
+    def add_route_dict(self, routes: dict):
+        for key, function in routes.items():
+            self.add_route(key, function)
+
     def on(self, key):
         def decorator(f):
-            self.routes[key] = partial(f, self)
+            self.add_route(key, f)
             return f
 
         return decorator
